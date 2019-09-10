@@ -108,6 +108,7 @@ class PSO:
     def __init__(self):
         self.swarm = []
         self.BuildGraph()
+        self.DistanceMatrix()
 
     #Initialize the graph 
     def BuildGraph(self):
@@ -123,8 +124,19 @@ class PSO:
             print('CHECK:',len(cities),"cities graphed successfully")
     
     def DistanceMatrix(self):
+        
         for x in range(TotalCities):
-            
+            cityA = cities[x]
+            a = []
+            for i in range(TotalCities):
+                
+                cityB = cities[i]   
+                #Using Euclidean formula to calcualte distances
+                a[i] =  math.sqrt(math.pow((cityB[0] - cityA[0]), 2) + math.pow((cityB[1] - cityA[1]), 2  )) 
+
+            distance_matrix.append(a) 
+
+        print(distance_matrix)   
 
 
 
