@@ -39,8 +39,9 @@ class Particle:
         random.shuffle(self.route)
         self.route.insert(0, temp) 
         self.route.append(0)
-
-        print("CHECK: Particle created successfully -> ",self.route)
+        
+        #To evaluate the routes generated uncomment below statement
+        #print("CHECK: Particle created successfully -> ",self.route)
 
         
     def CalculateFitness(self):
@@ -48,13 +49,9 @@ class Particle:
         total_distance = 0
         global gBest_fitness
 
-        for i in range(TotalCities):
-            cityA = cities[self.route[i]]
-            cityB = cities[self.route[i+1]]   
-            #Using Euclidean formula to calcualte distances
-            total_distance = total_distance  + math.sqrt(math.pow((cityB[0] - cityA[0]), 2) + math.pow((cityB[1] - cityA[1]), 2  ))
-    
-        #Usinf inverse because shorter the distance the better
+        for i in range(TotalCities):  total_distance = total_distance  + distance_matrix[self.route[i]][self.route[i+1]]
+        
+        #Using inverse because shorter the distance the better
         self.fitness = 1 / total_distance
 
         #Checking the best fitness of particle until this moment 
@@ -103,8 +100,7 @@ class Particle:
 
 #int_route.append(self.pBest_route[k+x]) if self.pBest_route[k+x] not in int_route else int_route
 class PSO:
-    global TotalCities
-
+    
     def __init__(self):
         self.swarm = []
         self.BuildGraph()
@@ -112,7 +108,8 @@ class PSO:
 
     #Initialize the graph 
     def BuildGraph(self):
-        
+        global TotalCities
+
         for i in range(len(x)):
             cities.append( [x[i] ,y[i]])
             
@@ -124,26 +121,26 @@ class PSO:
             print('CHECK:',len(cities),"cities graphed successfully")
     
     def DistanceMatrix(self):
-        
+        a = []
         for x in range(TotalCities):
             cityA = cities[x]
+            
             a = []
             for i in range(TotalCities):
-                
                 cityB = cities[i]   
                 #Using Euclidean formula to calcualte distances
-                a[i] =  math.sqrt(math.pow((cityB[0] - cityA[0]), 2) + math.pow((cityB[1] - cityA[1]), 2  )) 
+                a.append(math.sqrt(math.pow((cityB[0] - cityA[0]), 2) + math.pow((cityB[1] - cityA[1]), 2  )    ) )
+             
 
             distance_matrix.append(a) 
-
-        print(distance_matrix)   
-
-
 
 
     def GenerateSwarm(self):
         for i in range(PopulationSize):
             self.swarm.append(Particle())
+        
+        if len(self.swarm) == PopulationSize:
+            print('CHECK: Intial population generated successfully')
 
     def ShowFitness(self):
         for i in range(PopulationSize):
@@ -154,10 +151,15 @@ class PSO:
 
 
 
-PopulationSize = int(input("Enter population size: "))
+#PopulationSize = int(input("Enter population size: "))
+PopulationSize = 5
+
 print('Set learning rate: {recommended-> 2}\n')
-c1 = int(input("c1: "))
-c2 = int(input("c2: "))
+#c1 = int(input("c1: "))
+#c2 = int(input("c2: "))
+
+c1 = 2
+c2 = 2
 
 
 #Assigning the number of cities detected to an integer variable
