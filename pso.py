@@ -29,10 +29,10 @@ gbest_track_2=[]
 #learning rate
 c1 = 0
 c2= 0
-
+"""
 x = [5,10,12,2,14,15,3,6,8,15,12,10,6,14,25,20,23,8,7,89,52]
 y = [6,5,11,1,6,10,8,6,10,2,12,14,20,5,6,25,15,10,20,14,7]
-"""
+
 x = [1,2,3,1,3,4,5]
 y = [3,3,3,1,1,1,1]
 """
@@ -90,11 +90,11 @@ class Particle:
 
             
 
-            print("MSG: Global best updated ->", gBest_fitness,"-- route ->",gBest_route)
+            print("MSG: Global best updated ->", gBest_fitness)
             print("RESULT: Best distance =",1 / gBest_fitness )
         
     def Crossover(self):
-        if self.pBest_fitness != gBest_fitness:
+        #if self.pBest_fitness != gBest_fitness:
             int_route = []
             
             k = random.randint(1,TotalCities-1)
@@ -154,11 +154,15 @@ class PSO:
     def BuildGraph(self):
         global TotalCities
 
-        for i in range(len(x) and len(y)):
-            cities.append( [x[i] ,y[i]])
+        f = open("att48_xy.txt", "r")
+
+        for coords in f:
+            x, y = coords.split()
+            cities.append([int(x) ,int(y)])
+
             
         #To verify the list of cities and their coordinates (x,y) uncomment the line below
-        #print(cities)
+        print(cities)
         TotalCities = len(cities)
         #Verify if city array is filled
         if len(cities)  > 0 :
@@ -207,16 +211,16 @@ class PSO:
 
 #print("MSG: Global best updated ->", gBest_fitness,"-- route ->",gBest_route)   
 
-#PopulationSize = int(input("Enter population size: "))
-PopulationSize =15
+PopulationSize = int(input("Enter population size: "))
+#PopulationSize =15
 
 print('Set learning rate: {recommended-> 2}\n')
-#c1 = int(input("c1: "))
-#c2 = int(input("c2: "))
-#iteration = int(input("Set number of iteration: "))
-iteration = 50
-c1 = 2
-c2 = 2
+c1 = int(input("c1: "))
+c2 = int(input("c2: "))
+iteration = int(input("Set number of iteration: "))
+#iteration = 50
+#c1 = 2
+#c2 = 2
 
 
 #Assigning the number of cities detected to an integer variable
